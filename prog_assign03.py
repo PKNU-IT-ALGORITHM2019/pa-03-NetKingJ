@@ -58,23 +58,22 @@ def mergeSort(a):
     return a
 
 #빠른정렬(마지막 값을 피봇으로 선택)
-def quickSort1(a, p, r):
-  if p<r:
-    q=partition1(a, p, r)
-    quickSort1(a, p, q-1)
-    quickSort1(a, q+1, r)
+def quickSort1(a, lo, hi):
+  if lo < hi:
+    p = partition1(a, lo, hi)
+    quickSort1(a, lo, p-1)
+    quickSort1(a, p+1, hi)
   return a
 
-def partition1(a, p, r):
-  x = a[r]
-  i = p-1
-  j=p
-  for j in range(r-1):
-    if a[j]<=x:
-      i=i+1
+def partition1(a, lo, hi):
+  x = a[hi]
+  i = lo - 1
+  for j in range(lo, hi):
+    if a[j] <= x:
+      i = i + 1
       a[i], a[j] = a[j], a[i]
-    a[i+1], a[r] = a[r], a[i+1]
-    return i+1
+  a[i+1], a[hi] = a[hi], a[i+1]
+  return i + 1
 
 #빠른정렬(첫번째 값, 가운데 위치의 값, 그리고 마지막 값 중에서 중간값을 pivot으로 선택)
 def quickSort2(a):
@@ -92,11 +91,6 @@ def quickSort2(a):
   return quickSort2(lesser_a) + equal_a + quickSort2(greater_a)
 
 #빠른정렬(pivot을 랜덤하게 선택)
-def swap(A, i, j):
-  temp = A[i]
-  A[i] = A[j]
-  A[j] = temp
-
 def quickSort3(A, lo, hi):
   if lo < hi:
       p = partition3(A, lo, hi)
@@ -107,13 +101,13 @@ def quickSort3(A, lo, hi):
 def partition3(A, lo, hi):
   pivotIndex = random.randint(lo, hi)
   pivotValue = A[pivotIndex]
-  swap(A, pivotIndex, hi)
+  A[pivotIndex], A[hi] = A[hi], A[pivotIndex]
   storeIndex = lo
   for i in range(lo, hi):
       if A[i] < pivotValue:
-          swap(A, i, storeIndex)
+          A[i], A[storeIndex] = A[storeIndex], A[i]
           storeIndex += 1
-  swap(A, storeIndex, hi)
+  A[storeIndex], A[hi] = A[hi], A[storeIndex]
   return storeIndex
 
 #힙정렬
@@ -127,7 +121,7 @@ def heapSort(unsorted_list):
       unsorted_list[sorted_num], unsorted_list[0] =\
           unsorted_list[0], unsorted_list[sorted_num]
       build_max_heap(unsorted_list, 0, sorted_num - 1)
-
+  return unsorted_list
 
 def build_max_heap(maxheap_list, parent, end):
   child = parent * 2 + 1
@@ -164,13 +158,13 @@ start_vect=time.time()
 mergeSort(n1)
 msn1 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n1, 1, len(n1)-1)
+quickSort1(n1, 0, len(n1)-1)
 qs1n1 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n1)
 qs2n1 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n1, 1, len(n1)-1)
+quickSort3(n1, 0, len(n1)-1)
 qs3n1 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n1)
@@ -197,13 +191,13 @@ start_vect=time.time()
 mergeSort(n2)
 msn2 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n2, 1, len(n2)-1)
+quickSort1(n2, 0, len(n2)-1)
 qs1n2 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n2)
 qs2n2 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n2, 1, len(n2)-1)
+quickSort3(n2, 0, len(n2)-1)
 qs3n2 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n2)
@@ -227,13 +221,13 @@ start_vect=time.time()
 mergeSort(n3)
 msn3 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n3, 1, len(n3)-1)
+quickSort1(n3, 0, len(n3)-1)
 qs1n3 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n3)
 qs2n3 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n3, 1, len(n3)-1)
+quickSort3(n3, 0, len(n3)-1)
 qs3n3 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n3)
@@ -260,13 +254,13 @@ start_vect=time.time()
 mergeSort(n4)
 msn4 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n4, 1, len(n4)-1)
+quickSort1(n4, 0, len(n4)-1)
 qs1n4 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n4)
 qs2n4 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n4, 1, len(n4)-1)
+quickSort3(n4, 0, len(n4)-1)
 qs3n4 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n4)
@@ -290,13 +284,13 @@ start_vect=time.time()
 mergeSort(n5)
 msn5 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n5, 1, len(n5)-1)
+quickSort1(n5, 0, len(n5)-1)
 qs1n5 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n5)
 qs2n5 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n5, 1, len(n5)-1)
+quickSort3(n5, 0, len(n5)-1)
 qs3n5 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n5)
@@ -323,13 +317,13 @@ start_vect=time.time()
 mergeSort(n6)
 msn6 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort1(n6, 1, len(n6)-1)
+quickSort1(n6, 0, len(n6)-1)
 qs1n6 = (time.time() - start_vect)
 start_vect=time.time()
 quickSort2(n6)
 qs2n6 = (time.time() - start_vect)
 start_vect=time.time()
-quickSort3(n6, 1, len(n6)-1)
+quickSort3(n6, 0, len(n6)-1)
 qs3n6 = (time.time() - start_vect)
 start_vect=time.time()
 heapSort(n6)
